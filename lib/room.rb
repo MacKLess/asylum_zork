@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 class Room < ActiveRecord::Base
+  has_one :item
 
   def move(direction)
     direction.downcase!
@@ -22,6 +23,11 @@ class Room < ActiveRecord::Base
   end
 
   def take(item)
+    if item.downcase == self.item.name.downcase
+      self.item.update({room_id: nil, in_inventory: true})    
+    else
+      return false
+    end
   end
 
   def use(item)

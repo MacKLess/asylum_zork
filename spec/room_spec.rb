@@ -17,6 +17,13 @@ describe('Room') do
     west_exit: true,
   }) }
 
+  let(:item) { Item.new({
+    name: "key",
+    room_id: nil,
+    in_inventory: false,
+    used: false
+  }) }
+
   describe '#look' do
     it "returns the room's description" do
       room.save
@@ -57,6 +64,26 @@ describe('Room') do
       })
       room2.save
       expect(room.move('north')).to eq(room2)
+    end
+  end
+
+  describe '#item' do
+    it "returns item in room" do
+      room.save
+      item.room_id = room.id
+      item.save
+      expect(room.item).to eq(item)
+    end
+  end
+
+  describe '#take' do
+    it "moves item from room to inventory" do
+      room.save
+      item.room_id = room.id
+      item.save
+      room.take(item.name)
+      expect(Item.find(item.id).in_inventory).to eq(true)
+      expect(Room.find(room.id).item).to eq(nil)
     end
   end
 end
