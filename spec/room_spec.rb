@@ -35,4 +35,28 @@ describe('Room') do
       expect(Room.find_by_coordinates(0, 0)).to eq(nil)
     end
   end
+
+  describe '#move' do
+    it "returns nil when there is not an exit" do
+      expect(room.move('east')).to eq(nil)
+    end
+
+    it "returns new room when there is an exit" do
+      room2 = Room.new({
+        name: 'Next',
+        description: 'The Next Room.',
+        x_coordinate: 1,
+        y_coordinate: 2,
+        active: true,
+        solution_item: 'key',
+        success_room: nil,
+        north_exit: true,
+        east_exit: false,
+        south_exit: true,
+        west_exit: false,
+      })
+      room2.save
+      expect(room.move('north')).to eq(room2)
+    end
+  end
 end
