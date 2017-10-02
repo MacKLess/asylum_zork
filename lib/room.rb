@@ -36,6 +36,8 @@ class Room < ActiveRecord::Base
   end
 
   def use(item)
+    if (item.downcase == self.solution_item.downcase) & item.downcase = in_inventory
+    end
   end
 
   def read(note)
