@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-class Item
+class Item < ActiveRecord::Base
 end

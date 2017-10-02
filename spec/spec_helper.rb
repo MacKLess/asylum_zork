@@ -21,8 +21,8 @@ RSpec.configure do |config|
       item.destroy
     end
 
-    Note.all.each do |note|
-      note.destroy
-    end
+    # Note.all.each do |note|
+    #   note.destroy
+    # end
   end
 end
