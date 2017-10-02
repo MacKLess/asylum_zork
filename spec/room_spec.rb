@@ -95,4 +95,28 @@ describe('Room') do
       expect(Room.find(room.id).item).to eq(nil)
     end
   end
+
+  describe('#use') do
+    it("returns the room's success version if the item is correct and in the user's inventory") do
+      item.in_inventory = true
+      item.save
+      room2 = Room.create({
+       name: 'Start',
+       description: 'The First Room.',
+       x_coordinate: 1,
+       y_coordinate: 1,
+       active: false,
+       solution_item: 'key',
+       success_room: nil,
+       north_exit: true,
+       east_exit: false,
+       south_exit: true,
+       west_exit: true,
+       first_impression: 'you have entered a spooky foyer',
+       visited: false
+     })
+    expect(room.use("key")).to eq(room2)  
+    end
+  end
+
 end
