@@ -10,8 +10,4 @@ class Item < ActiveRecord::Base
     result = Item.where("name = ? AND in_inventory = ?", item.downcase, true)
     return result.length > 0
   end
-
-
-
-
 end
