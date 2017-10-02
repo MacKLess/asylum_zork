@@ -10,4 +10,12 @@ describe('Item') do
     used: false
   }) }
 
+  describe('.inventory') do
+    it("returns all items in inventory") do
+      item.in_inventory = true
+      item.save
+      expect(Item.inventory).to eq([item])
+    end
+  end
+
 end
