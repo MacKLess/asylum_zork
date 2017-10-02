@@ -7,7 +7,6 @@ describe('Item') do
     name: "key",
     room_id: nil,
     in_inventory: false,
-    used: false
   }) }
 
   describe('.inventory') do
@@ -25,7 +24,4 @@ describe('Item') do
       expect(Item.in_inventory?(item.name)).to eq(true)
     end
   end
-
-
-
 end

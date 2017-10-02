@@ -10,7 +10,6 @@ describe('Room') do
     y_coordinate: 1,
     active: true,
     solution_item: 'key',
-    success_room: nil,
     north_exit: true,
     east_exit: false,
     south_exit: true,
@@ -23,7 +22,6 @@ describe('Room') do
     name: "key",
     room_id: nil,
     in_inventory: false,
-    used: false
   }) }
 
   describe '#look' do
@@ -65,7 +63,6 @@ describe('Room') do
         y_coordinate: 2,
         active: true,
         solution_item: 'key',
-        success_room: nil,
         north_exit: true,
         east_exit: false,
         south_exit: true,
@@ -107,7 +104,6 @@ describe('Room') do
        y_coordinate: 1,
        active: false,
        solution_item: 'key',
-       success_room: nil,
        north_exit: true,
        east_exit: false,
        south_exit: true,
