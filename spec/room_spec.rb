@@ -97,7 +97,7 @@ describe('Room') do
   end
 
   describe('#use') do
-    it("returns the room's success version if the item is correct and in the user's inventory") do
+    it("returns the room's success version if the item is correct and in the user's inventory, and marks item as used") do
       item.in_inventory = true
       item.save
       room2 = Room.create({
@@ -116,6 +116,7 @@ describe('Room') do
        visited: false
      })
     expect(room.use("key")).to eq(room2)
+    expect(Item.find(item.id).in_inventory).to eq(false)
     end
   end
 
@@ -127,6 +128,17 @@ describe('Room') do
         note_text: "This is a super scary note."
       })
       expect(room.note).to eq(note)
+    end
+  end
+
+  describe '#read' do
+    it "returns the text of the note assigned to the room" do
+      room.save
+      note = Note.create({
+        room_id: room.id,
+        note_text: "This is a super scary note."
+      })
+      expect(room.read).to eq("This is a super scary note.")
     end
   end
 end

@@ -41,11 +41,18 @@ class Room < ActiveRecord::Base
       results = Room.where("name = ? AND active = ?", self.name, false)
       self.update({:active => false})
       results.first.update({:active => true})
+      item = Item.find_by(name: item.downcase)
+      item.update({in_inventory: false})
       return results.first
     end
   end
 
-  def read(note)
+  def read
+    if self.note
+      return self.note.note_text
+    else
+      return nil
+    end
   end
 
   def self.find_by_coordinates(x, y)
