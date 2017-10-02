@@ -1,0 +1,6 @@
+development:
+  adapter: postgresql
+  database: asylum_zork_development
+test:
+  adapter: postgresql
+  database: asylum_zork_test
