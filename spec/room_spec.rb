@@ -115,8 +115,18 @@ describe('Room') do
        first_impression: 'you have entered a spooky foyer',
        visited: false
      })
-    expect(room.use("key")).to eq(room2)  
+    expect(room.use("key")).to eq(room2)
     end
   end
 
+  describe '#note' do
+    it "returns the note assigned to the room" do
+      room.save
+      note = Note.create({
+        room_id: room.id,
+        note_text: "This is a super scary note."
+      })
+      expect(room.note).to eq(note)
+    end
+  end
 end

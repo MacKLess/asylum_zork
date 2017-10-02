@@ -2,6 +2,7 @@
 
 class Room < ActiveRecord::Base
   has_one :item
+  has_one :note
 
   def move(direction)
     direction.downcase!
