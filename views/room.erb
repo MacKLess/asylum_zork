@@ -1,0 +1,11 @@
+<h2><%= @room.name.capitalize %></h2>
+
+<p><%= @room.look %></p>
+
+<form action="room/<%= @room.name %>" method="post">
+  <div class="form-group">
+    <label for="action">What do you want to do?</label>
+    <input type="text" name="action" class="form-control">
+  </div>
+  <button type="submit" class="btn">Act!</button>
+</form>
