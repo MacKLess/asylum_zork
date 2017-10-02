@@ -19,12 +19,17 @@ class Room < ActiveRecord::Base
   end
 
   def look
-    self.description
+    if !self.visited
+      self.visited = true
+      return self.first_impression
+    else
+      return self.description
+    end
   end
 
   def take(item)
     if item.downcase == self.item.name.downcase
-      self.item.update({room_id: nil, in_inventory: true})    
+      self.item.update({room_id: nil, in_inventory: true})
     else
       return false
     end

@@ -15,6 +15,8 @@ describe('Room') do
     east_exit: false,
     south_exit: true,
     west_exit: true,
+    first_impression: 'you have entered a spooky foyer',
+    visited: false
   }) }
 
   let(:item) { Item.new({
@@ -25,9 +27,16 @@ describe('Room') do
   }) }
 
   describe '#look' do
-    it "returns the room's description" do
+    it "returns the room's description if the room has already been visited" do
       room.save
+      room.look
       expect(room.look).to eq('The First Room.')
+    end
+
+    it "returns first impression upon first visit to the room and marks room as visited" do
+      room.save
+      expect(room.look).to eq('you have entered a spooky foyer')
+      expect(room.visited).to eq(true)
     end
   end
 
