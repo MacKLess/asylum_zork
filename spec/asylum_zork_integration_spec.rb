@@ -115,4 +115,16 @@ describe 'room actions', { type: :feature } do
     click_button('Act!')
     expect(page).to have_content("I don't understand.")
   end
+
+  it "prints the text of a room's note (if the room has a note) when user types 'read'" do
+    room.save
+    Note.create({
+      note_text: "Beware the Asylum!",
+      room_name: room.name
+    })
+    visit('/room/' + room.name)
+    fill_in('action', with: 'read')
+    click_button('Act!')
+    expect(page).to have_content('Beware the Asylum!')
+  end
 end

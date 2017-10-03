@@ -96,6 +96,9 @@ post('/room/:name') do
         @text = "You can't use that here."
         erb(:room)
       end
+    elsif action.start_with?("read")
+      @text = @room.read != nil ? @room.read : "There is nothing to read here."
+      erb(:room)
     elsif action.start_with?("inventory")
       @text = []
       inventory = Item.inventory
