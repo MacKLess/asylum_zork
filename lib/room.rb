@@ -21,7 +21,7 @@ class Room < ActiveRecord::Base
 
   def look
     if !self.visited
-      self.visited = true
+      self.update({visited: true})
       return self.first_impression
     else
       return self.description
