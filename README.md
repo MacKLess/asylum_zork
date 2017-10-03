@@ -8,7 +8,7 @@
 
 _A Zork inspired remake set in a haunted asylum and built in Ruby Script using Active Record and SQL._
 
-## Setup/Installation Requirements
+## Setup/Installation Requirements 
 
 * Clone this repository at [https://github.com/MacKLess/asylum_zork.git](https://github.com/MacKLess/asylum_zork.git)
 * Ensure you have Postgres installed and running ([instructions here](https://www.learnhowtoprogram.com/ruby/ruby-database-basics/installing-postgres-7fb0cff7-a0f5-4b61-a0db-8a928b9f67ef)))

@@ -8,8 +8,7 @@ Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
 get('/') do
-  #set up game files, DB, etc.
-  # TEST CODE FOR CHECKING VIEWS
+  # Database Reset and Setup
   Room.all.each do |room|
     room.destroy
   end
@@ -51,8 +50,58 @@ get('/') do
   end
   erb(:index)
 end
-#
-# get('/room/:name')
-#   @room = Room.where("name = ? AND active = ?", params.fetch(:name), true)
-#   erb(:room)
-# end
+
+get('/room/:name') do
+  results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
+  @room = results.length > 0 ? results.first : nil
+  @text = @room.look
+  erb(:room)
+end
+
+post('/room/:name') do
+  results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
+  if results.length > 0
+    @room = results.first
+    action = params.fetch(:action).downcase
+    if action.start_with?("look")
+      @text = @room.look
+      erb(:room)
+    elsif action.start_with?("move") || action.start_with?("go")
+      new_room = @room.move(action.split(" ")[1])
+      if new_room
+        redirect '/room/' + new_room.name
+      else
+        @text = "You can't go that way."
+        erb(:room)
+      end
+    elsif action.start_with?("take")
+      result = @room.take(action.split(" ")[1])
+      if result
+        @text = "Taken."
+      else
+        @text = "You can't take that."
+      end
+      erb(:room)
+    elsif action.start_with?("use")
+      success_room = @room.use(action.split(" ")[1])
+      if success_room
+        redirect '/room/' + success_room.name
+      else
+        @text = "You can't use that here."
+        erb(:room)
+      end
+    elsif action.start_with?("inventory")
+      @text = []
+      inventory = Item.inventory
+      @text = inventory.map do |item|
+        item.name
+      end
+      erb(:room)
+    else
+      @text = "I don't understand."
+      erb(:room)
+    end
+
+
+  end
+end

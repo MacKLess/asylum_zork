@@ -108,10 +108,11 @@ describe('Room') do
        east_exit: false,
        south_exit: true,
        west_exit: true,
-       first_impression: 'you have entered a spooky foyer',
+       first_impression: 'you have used the key!',
        visited: false
      })
     expect(room.use("key")).to eq(room2)
+    expect(Room.find(room2.id).active).to eq(true)
     expect(Item.find(item.id).in_inventory).to eq(false)
     end
   end

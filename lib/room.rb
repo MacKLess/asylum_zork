@@ -21,7 +21,7 @@ class Room < ActiveRecord::Base
 
   def look
     if !self.visited
-      self.visited = true
+      self.update({visited: true})
       return self.first_impression
     else
       return self.description
@@ -29,21 +29,24 @@ class Room < ActiveRecord::Base
   end
 
   def take(item)
-    if item.downcase == self.item.name.downcase
-      self.item.update({room_id: nil, in_inventory: true})
-    else
-      return false
+    if self.item
+      if item.downcase == self.item.name.downcase
+        return self.item.update({room_id: nil, in_inventory: true})
+      end
     end
+    return false
   end
 
   def use(item)
-    if (item.downcase == self.solution_item.downcase) & Item.in_inventory?(item)
-      results = Room.where("name = ? AND active = ?", self.name, false)
-      self.update({:active => false})
-      results.first.update({:active => true})
-      item = Item.find_by(name: item.downcase)
-      item.update({in_inventory: false})
-      return results.first
+    if self.solution_item
+      if (item.downcase == self.solution_item.downcase) & Item.in_inventory?(item)
+        success_room = Room.where("name = ? AND active = ?", self.name, false).first
+        self.update({active: false})
+        success_room.update({active: true})
+        item = Item.find_by(name: item.downcase)
+        item.update({in_inventory: false})
+        return success_room
+      end
     end
   end
 
