@@ -55,6 +55,9 @@ get('/room/:name') do
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   @room = results.length > 0 ? results.first : nil
   @text = @room.look
+  if @room.item
+    @text += " There is a #{@room.item.name} here."
+  end
   erb(:room)
 end
 
@@ -65,6 +68,9 @@ post('/room/:name') do
     action = params.fetch(:action).downcase
     if action.start_with?("look")
       @text = @room.look
+      if @room.item
+        @text += " There is a #{@room.item.name} here."
+      end
       erb(:room)
     elsif action.start_with?("move") || action.start_with?("go")
       new_room = @room.move(action.split(" ")[1])
@@ -75,7 +81,7 @@ post('/room/:name') do
         erb(:room)
       end
     elsif action.start_with?("take")
-      result = @room.take(action.split(" ")[1])
+      result = @room.take(action.split(" ")[1..-1].join(" "))
       if result
         @text = "Taken."
       else
@@ -83,7 +89,7 @@ post('/room/:name') do
       end
       erb(:room)
     elsif action.start_with?("use")
-      success_room = @room.use(action.split(" ")[1])
+      success_room = @room.use(action.split(" ")[1..-1].join(" "))
       if success_room
         redirect '/room/' + success_room.name
       else
@@ -99,7 +105,7 @@ post('/room/:name') do
       erb(:room)
     else
       @text = "I don't understand."
-      erb(:room)  
+      erb(:room)
     end
 
 
