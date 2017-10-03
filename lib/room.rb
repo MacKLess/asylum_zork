@@ -29,11 +29,12 @@ class Room < ActiveRecord::Base
   end
 
   def take(item)
-    if item.downcase == self.item.name.downcase
-      self.item.update({room_id: nil, in_inventory: true})
-    else
-      return false
+    if self.item
+      if item.downcase == self.item.name.downcase
+        return self.item.update({room_id: nil, in_inventory: true})
+      end
     end
+    return false
   end
 
   def use(item)

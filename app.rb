@@ -87,7 +87,7 @@ post('/room/:name') do
       if success_room
         redirect '/room/' + success_room.name
       else
-        @text = "That isn't useful here."
+        @text = "You can't use that here."
         erb(:room)
       end
     end
