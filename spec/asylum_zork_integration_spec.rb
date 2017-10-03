@@ -94,4 +94,17 @@ describe 'room actions', { type: :feature } do
     click_button('Act!')
     expect(page).to have_content('you have used the key!')
   end
+
+  it "lists items in inventory" do
+    room.save
+    item = Item.create({
+      room_id: nil,
+      name: "key",
+      in_inventory: true,
+    })
+    visit('/room/' + room.name)
+    fill_in('action', with: 'inventory')
+    click_button('Act!')
+    expect(page). to have_content('key')
+  end
 end

@@ -90,6 +90,15 @@ post('/room/:name') do
         @text = "You can't use that here."
         erb(:room)
       end
+    elsif action.start_with?("inventory")
+      @text = []
+      inventory = Item.inventory
+      @text = inventory.map do |item|
+        item.name
+      end
+      erb(:room)
     end
+
+
   end
 end
