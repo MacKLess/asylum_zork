@@ -8,8 +8,7 @@ Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
 get('/') do
-  #set up game files, DB, etc.
-  # TEST CODE FOR CHECKING VIEWS
+  # Database Reset and Setup
   Room.all.each do |room|
     room.destroy
   end
@@ -21,7 +20,7 @@ get('/') do
   Note.all.each do |note|
     note.destroy
   end
-  
+
   CSV.foreach('./lib/seeds/rooms_seed.csv', headers: true) do |row|
     attributes = row.to_hash
     Room.create({
@@ -51,8 +50,9 @@ get('/') do
   end
   erb(:index)
 end
-#
-# get('/room/:name')
-#   @room = Room.where("name = ? AND active = ?", params.fetch(:name), true)
-#   erb(:room)
-# end
+
+get('/room/:name') do
+  results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
+  @room = results.length > 0 ? results.first : nil
+  erb(:room)
+end

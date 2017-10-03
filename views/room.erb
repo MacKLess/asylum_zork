@@ -1,11 +1,15 @@
-<h2><%= @room.name.capitalize %></h2>
+<% if @room %>
+  <h2><%= @room.name.capitalize %></h2>
 
-<p><%= @room.look %></p>
+  <p><%= @room.look %></p>
 
-<form action="room/<%= @room.name %>" method="post">
-  <div class="form-group">
-    <label for="action">What do you want to do?</label>
-    <input type="text" name="action" class="form-control">
-  </div>
-  <button type="submit" class="btn">Act!</button>
-</form>
+  <form action="room/<%= @room.name %>" method="post">
+    <div class="form-group">
+      <label for="action">What do you want to do?</label>
+      <input type="text" name="action" class="form-control">
+    </div>
+    <button type="submit" class="btn">Act!</button>
+  </form>
+<% else %>
+  <h2>You have gotten very lost.</h2>
+<% end %>
