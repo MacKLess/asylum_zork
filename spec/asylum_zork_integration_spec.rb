@@ -67,4 +67,31 @@ describe 'room actions', { type: :feature } do
     expect(page).to have_content('Taken.')
     expect(Item.inventory).to eq([item])
   end
+
+  it "sends a user to the success version of a room if they type 'use' and the correct item" do
+    room.save
+    room_success = Room.create({
+      name: 'start',
+      description: 'The First Room.',
+      x_coordinate: 1,
+      y_coordinate: 1,
+      active: false,
+      solution_item: nil,
+      north_exit: true,
+      east_exit: false,
+      south_exit: true,
+      west_exit: true,
+      first_impression: 'you have used the key!',
+      visited: false
+    })
+    item = Item.create({
+      room_id: nil,
+      name: "key",
+      in_inventory: true,
+    })
+    visit('/room/' + room.name)
+    fill_in('action', with: 'use key')
+    click_button('Act!')
+    expect(page).to have_content('you have used the key!')
+  end
 end

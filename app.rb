@@ -82,6 +82,14 @@ post('/room/:name') do
         @text = "You can't take that."
       end
       erb(:room)
+    elsif action.start_with?("use")
+      success_room = @room.use(action.split(" ")[1])
+      if success_room
+        redirect '/room/' + success_room.name
+      else
+        @text = "That isn't useful here."
+        erb(:room)
+      end
     end
   end
 end
