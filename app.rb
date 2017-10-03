@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require("bundler/setup")
+require("csv")
+require "pry"
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
@@ -19,39 +21,38 @@ get('/') do
   Note.all.each do |note|
     note.destroy
   end
-  test1 = Room.create({
-    name: 'foyer',
-    description: 'The First Room.',
-    x_coordinate: 1,
-    y_coordinate: 1,
-    active: true,
-    solution_item: 'key',
-    north_exit: true,
-    east_exit: false,
-    south_exit: true,
-    west_exit: false,
-    first_impression: 'you have entered a spooky foyer',
-    visited: false
-  })
-  test2 = Room.create({
-    name: 'intake',
-    description: 'The Intake Room.',
-    x_coordinate: 1,
-    y_coordinate: 1,
-    active: true,
-    solution_item: 'combination',
-    north_exit: true,
-    east_exit: false,
-    south_exit: true,
-    west_exit: false,
-    first_impression: 'you have entered a dilapitated patient intake room',
-    visited: false
-  })
-  combination = Item.create({:name => 'combination', :room_id => test2.id})
+  
+  CSV.foreach('./lib/seeds/rooms_seed.csv', headers: true) do |row|
+    attributes = row.to_hash
+    Room.create({
+      name: attributes["name"].downcase,
+      first_impression: attributes["first_impression"],
+      description: attributes["description"],
+      x_coordinate: attributes["x_coordinate"].to_i,
+      y_coordinate: attributes["y_coordinate"].to_i,
+      active: attributes["active"] == "1",
+      solution_item: attributes["solution_item"] != nil ? attributes["solution_item"].downcase : nil,
+      north_exit: attributes["north_exit"] == "1",
+      east_exit: attributes["east_exit"] == "1",
+      south_exit: attributes["south_exit"] == "1",
+      west_exit: attributes["west_exit"] == "1",
+      visited: attributes["visited"] == "1"
+    })
+  end
+
+  CSV.foreach('./lib/seeds/items_seed.csv', headers: true) do |row|
+    attributes = row.to_hash
+    item_room = Room.where("name = ? and active = ?", attributes["room"].downcase, attributes["room_active"] == "1").first
+    Item.create({
+      name: attributes["name"].downcase,
+      in_inventory: false,
+      room_id: item_room != nil ? item_room.id : nil
+    })
+  end
   erb(:index)
 end
-
-get('/room/:name')
-  @room = Room.where("name = ? AND active = ?", params.fetch(:name), true)
-  erb(:room)
-end
+#
+# get('/room/:name')
+#   @room = Room.where("name = ? AND active = ?", params.fetch(:name), true)
+#   erb(:room)
+# end
