@@ -38,14 +38,16 @@ class Room < ActiveRecord::Base
   end
 
   def use(item)
-    if (item.downcase == self.solution_item.downcase) & Item.in_inventory?(item)
-      success_room = Room.where("name = ? AND active = ?", self.name, false).first
-      self.update({active: false})
-      success_room.update({active: true})
-      item = Item.find_by(name: item.downcase)
-      item.update({in_inventory: false})
-      return success_room
-    end
+    if self.solution_item
+      if (item.downcase == self.solution_item.downcase) & Item.in_inventory?(item)
+        success_room = Room.where("name = ? AND active = ?", self.name, false).first
+        self.update({active: false})
+        success_room.update({active: true})
+        item = Item.find_by(name: item.downcase)
+        item.update({in_inventory: false})
+        return success_room
+      end
+    end 
   end
 
   def read
