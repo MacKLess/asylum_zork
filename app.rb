@@ -48,6 +48,15 @@ get('/') do
       room_id: item_room != nil ? item_room.id : nil
     })
   end
+
+  CSV.foreach('./lib/seeds/notes_seed.csv', headers: true) do |row|
+    attributes = row.to_hash
+    Note.create({
+      room_name: attributes["room"].downcase,
+      note_text: attributes["note_text"]
+      })
+  end
+
   erb(:index)
 end
 
@@ -58,6 +67,9 @@ get('/room/:name') do
   if @room.item
     @text += " There is a #{@room.item.name} here."
   end
+  if @room.note
+    @text += " There is a note here."
+  end 
   erb(:room)
 end
 
@@ -70,6 +82,9 @@ post('/room/:name') do
       @text = @room.look
       if @room.item
         @text += " There is a #{@room.item.name} here."
+      end
+      if @room.note
+        @text += " There is a note here."
       end
       erb(:room)
     elsif action.start_with?("move") || action.start_with?("go")
@@ -96,6 +111,9 @@ post('/room/:name') do
         @text = "You can't use that here."
         erb(:room)
       end
+    elsif action.start_with?("read")
+      @text = @room.read != nil ? @room.read : "There is nothing to read here."
+      erb(:room)
     elsif action.start_with?("inventory")
       @text = []
       inventory = Item.inventory

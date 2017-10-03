@@ -121,7 +121,7 @@ describe('Room') do
     it "returns the note assigned to the room" do
       room.save
       note = Note.create({
-        room_id: room.id,
+        room_name: room.name,
         note_text: "This is a super scary note."
       })
       expect(room.note).to eq(note)
@@ -132,7 +132,7 @@ describe('Room') do
     it "returns the text of the note assigned to the room" do
       room.save
       note = Note.create({
-        room_id: room.id,
+        room_name: room.name,
         note_text: "This is a super scary note."
       })
       expect(room.read).to eq("This is a super scary note.")

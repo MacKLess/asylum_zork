@@ -2,7 +2,10 @@
 
 class Room < ActiveRecord::Base
   has_one :item
-  has_one :note
+
+  def note
+    Note.find_by(room_name: self.name)
+  end
 
   def move(direction)
     direction.downcase!
