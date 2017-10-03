@@ -53,4 +53,18 @@ describe 'room actions', { type: :feature } do
     click_button('Act!')
     expect(page).to have_content('you have entered a spooky reception')
   end
+
+  it "adds an item to the user's inventory if they type 'take' and a the item's name" do
+    room.save
+    item = Item.create({
+      room_id: room.id,
+      name: "key",
+      in_inventory: false,
+    })
+    visit('/room/' + room.name)
+    fill_in('action', with: 'take key')
+    click_button('Act!')
+    expect(page).to have_content('Taken.')
+    expect(Item.inventory).to eq([item])
+  end
 end

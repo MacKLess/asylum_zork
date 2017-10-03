@@ -74,6 +74,14 @@ post('/room/:name') do
         @text = "You can't go that way."
         erb(:room)
       end
+    elsif action.start_with?("take")
+      result = @room.take(action.split(" ")[1])
+      if result
+        @text = "Taken."
+      else
+        @text = "You can't take that."
+      end
+      erb(:room)
     end
   end
 end
