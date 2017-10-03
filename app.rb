@@ -48,6 +48,15 @@ get('/') do
       room_id: item_room != nil ? item_room.id : nil
     })
   end
+
+  CSV.foreach('./lib/seeds/notes_seed.csv', headers: true) do |row|
+    attributes = row.to_hash
+    Note.create({
+      room_name: attributes["room"].downcase,
+      note_text: attributes["note_text"]
+      })
+  end
+
   erb(:index)
 end
 
