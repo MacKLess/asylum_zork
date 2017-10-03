@@ -1,9 +1,9 @@
 <% if @room %>
   <h2><%= @room.name.capitalize %></h2>
 
-  <p><%= @room.look %></p>
+  <p><%= @text %></p>
 
-  <form action="room/<%= @room.name %>" method="post">
+  <form action="/room/<%= @room.name %>" method="post">
     <div class="form-group">
       <label for="action">What do you want to do?</label>
       <input type="text" name="action" class="form-control">

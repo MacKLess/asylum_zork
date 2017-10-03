@@ -54,5 +54,19 @@ end
 get('/room/:name') do
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   @room = results.length > 0 ? results.first : nil
+  @text = @room.look
   erb(:room)
+end
+
+post('/room/:name') do
+  results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
+  if results.length > 0
+    @room = results.first
+    action = params.fetch(:action).downcase
+    if action.start_with?("look")
+      @text = @room.look
+      erb(:room)
+    else
+    end
+  end
 end
