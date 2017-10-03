@@ -67,6 +67,9 @@ get('/room/:name') do
   if @room.item
     @text += " There is a #{@room.item.name} here."
   end
+  if @room.note
+    @text += " There is a note here."
+  end 
   erb(:room)
 end
 
@@ -79,6 +82,9 @@ post('/room/:name') do
       @text = @room.look
       if @room.item
         @text += " There is a #{@room.item.name} here."
+      end
+      if @room.note
+        @text += " There is a note here."
       end
       erb(:room)
     elsif action.start_with?("move") || action.start_with?("go")
