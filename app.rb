@@ -97,6 +97,9 @@ post('/room/:name') do
         item.name
       end
       erb(:room)
+    else
+      @text = "I don't understand."
+      erb(:room)  
     end
 
 

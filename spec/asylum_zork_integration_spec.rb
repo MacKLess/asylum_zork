@@ -105,6 +105,14 @@ describe 'room actions', { type: :feature } do
     visit('/room/' + room.name)
     fill_in('action', with: 'inventory')
     click_button('Act!')
-    expect(page). to have_content('key')
+    expect(page).to have_content('key')
+  end
+
+  it "responds to non-keyword text" do
+    room.save
+    visit('/room/' + room.name)
+    fill_in('action', with: 'hit plant with shovel')
+    click_button('Act!')
+    expect(page).to have_content("I don't understand.")
   end
 end
