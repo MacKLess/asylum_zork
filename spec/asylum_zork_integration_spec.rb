@@ -31,4 +31,26 @@ describe 'room actions', { type: :feature } do
     click_button('Act!')
     expect(page).to have_content('The First Room.')
   end
+
+  it "moves a user to a new room if they type 'move' and a valid direction" do
+    room2 = Room.create({
+      name: 'next',
+      description: 'The Second Room.',
+      x_coordinate: 1,
+      y_coordinate: 2,
+      active: true,
+      solution_item: 'combination',
+      north_exit:false,
+      east_exit: false,
+      south_exit: true,
+      west_exit: false,
+      first_impression: 'you have entered a spooky reception',
+      visited: false
+    })
+    room.save
+    visit('/room/' + room.name)
+    fill_in('action', with: 'move north')
+    click_button('Act!')
+    expect(page).to have_content('you have entered a spooky reception')
+  end
 end

@@ -66,7 +66,14 @@ post('/room/:name') do
     if action.start_with?("look")
       @text = @room.look
       erb(:room)
-    else
+    elsif action.start_with?("move") || action.start_with?("go")
+      new_room = @room.move(action.split(" ")[1])
+      if new_room
+        redirect '/room/' + new_room.name
+      else
+        @text = "You can't go that way."
+        erb(:room)
+      end
     end
   end
 end
