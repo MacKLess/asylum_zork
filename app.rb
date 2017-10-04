@@ -103,7 +103,7 @@ post('/room/:name') do
       @text = text
       erb(:room)
     elsif action.start_with?("move") || action.start_with?("go")
-      new_room = @room.move(action.split(" ")[1])
+      new_room = @room.move(action.split(" ")[1] || "")
       if new_room
         redirect '/room/' + new_room.name
       else
@@ -112,7 +112,7 @@ post('/room/:name') do
         erb(:room)
       end
     elsif action.start_with?("take")
-      result = @room.take(action.split(" ")[1..-1].join(" "))
+      result = @room.take(action.split(" ")[1..-1].join(" ") || "")
       if result
         text.push("Taken.")
       else
@@ -121,7 +121,7 @@ post('/room/:name') do
       @text = text
       erb(:room)
     elsif action.start_with?("use")
-      success_room = @room.use(action.split(" ")[1..-1].join(" "))
+      success_room = @room.use(action.split(" ")[1..-1].join(" ") || "")
       if success_room
         redirect '/room/' + success_room.name
       else
