@@ -1,15 +1,17 @@
-<% if @room %>
-  <div class="game-screen">
-    <h2><%= @room.title_name %></h2>
-    <% @text.each do |line| %>
-      <p><%= line %></p>
-    <% end %>
-    <form action="/room/<%= @room.name %>" method="post">
-      <div class="form-group">
-        <input type="text" name="action" class="form-control" autofocus>
-      </div>
-    </form>
-  </div>
-<% else %>
-  <h2>You have gotten very lost.</h2>
-<% end %>
+<div class="game">
+  <% if @room %>
+  <h2><%= @room.title_name %></h2>
+    <div class="game-screen">
+      <% @text.each do |line| %>
+        <p><%= line %></p>
+      <% end %>
+      <form action="/room/<%= @room.name %>" method="post">
+        <div class="form-group">
+          <input type="text" class="form-control" name="action" autofocus>
+        </div>
+      </form>
+    </div>
+  <% else %>
+    <h2>You have gotten very lost.</h2>
+  <% end %>
+</div>
