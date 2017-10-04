@@ -1,26 +1,28 @@
 <% if @room %>
-  <h2><%= @room.title_name %></h2>
+  <div class="game-screen">
+    <h2><%= @room.title_name %></h2>
 
-  <% if @text.class == String %>
-    <p><%= @text %></p>
-  <% elsif @text.class == Array%>
-    <% if @text.any? %>
-      <ul>
-        <% @text.each do |item| %>
-          <li><%= item %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>Your inventory is empty.</p>
+    <% if @text.class == String %>
+      <p><%= @text %></p>
+    <% elsif @text.class == Array%>
+      <% if @text.any? %>
+        <ul>
+          <% @text.each do |item| %>
+            <li><%= item %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>Your inventory is empty.</p>
+      <% end %>
     <% end %>
-  <% end %>
-  <form action="/room/<%= @room.name %>" method="post">
-    <div class="form-group">
-      <label for="action">What do you want to do?</label>
-      <input type="text" name="action" class="form-control" autofocus>
-    </div>
-    <button type="submit" class="btn">Act!</button>
-  </form>
+    <form action="/room/<%= @room.name %>" method="post">
+      <div class="form-group">
+        <label for="action">What do you want to do?</label>
+        <input type="text" name="action" class="form-control" autofocus>
+      </div>
+      <button type="submit" class="btn">Act!</button>
+    </form>
+  </div>
 <% else %>
   <h2>You have gotten very lost.</h2>
 <% end %>

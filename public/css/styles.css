@@ -1,0 +1,10 @@
+.game-screen {
+  background-color: black;
+  color: white;
+  height: 500px;
+  overflow-y: scroll
+}
+
+.control-option {
+  font-family: monospace;
+}
