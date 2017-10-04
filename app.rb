@@ -26,7 +26,7 @@ get('/') do
     note.destroy
   end
 
-  CSV.foreach('./lib/seeds/all_room_seeds_draft1.csv', headers: true) do |row|
+  CSV.foreach('./lib/seeds/room_seeds.csv', headers: true) do |row|
     attributes = row.to_hash
     Room.create({
       name: attributes["name"].downcase,
