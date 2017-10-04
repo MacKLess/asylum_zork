@@ -75,11 +75,8 @@ get('/room/:name') do
   if @room
     text.push(@room.title_name)
     text.push(@room.look)
-    if @room.item
-      text.push("There is a #{@room.item.name} here.")
-    end
-    if @room.note
-      text.push("There is a note here.")
+    text.push(@room.item ? "There is a #{@room.item.name} here." : nil)
+    text.push(@room.note ? "There is a note here." : nil)
     end
   end
   @moves = moves
@@ -88,6 +85,7 @@ get('/room/:name') do
 end
 
 post('/room/:name') do
+  directions = {'n' => 'north', 'e' => 'east', 'w' => 'west', 's' => 'south'}
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   if results.length > 0
     @room = results.first
@@ -97,13 +95,10 @@ post('/room/:name') do
     text.push("")
     text.push("> " + action)
     if action.start_with?("look")
+      # look action: grabs room.look, and notes if there are items or notes as well.
       text.push(@room.look)
-      if @room.item
-        text.push("There is a #{@room.item.name} here.")
-      end
-      if @room.note
-        text.push("There is a note here.")
-      end
+      text.push(@room.item ? "There is a #{@room.item.name} here." : nil)
+      text.push(@room.note ? "There is a note here." : nil)
       @text = text
       erb(:room)
     elsif action.start_with?("move") || action.start_with?("go")
