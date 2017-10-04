@@ -8,10 +8,12 @@ Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
 text = []
+moves = 0
 
 get('/') do
   # Database Reset and Setup
   text = []
+  moves = 0
   Room.all.each do |room|
     room.destroy
   end
@@ -76,6 +78,7 @@ get('/room/:name') do
       text.push("There is a note here.")
     end
   end
+  @moves = moves
   @text = text
   erb(:room)
 end
@@ -85,6 +88,8 @@ post('/room/:name') do
   if results.length > 0
     @room = results.first
     action = params.fetch(:action).downcase
+    moves += 1
+    @moves = moves
     text.push("")
     text.push("> " + action)
     if action.start_with?("look")
@@ -129,6 +134,8 @@ post('/room/:name') do
       @text = text
       erb(:room)
     elsif action.start_with?("inventory")
+      moves -= 1
+      @moves = moves
       if Item.inventory.any?
         Item.inventory.each do |item|
           text.push(item.name)

@@ -1,6 +1,6 @@
 <div class="game">
   <% if @room %>
-  <h2><%= @room.title_name %></h2>
+  <h2><span><%= @room.title_name %></span><span class='moves'>Moves: <%= @moves %></span></h2>
     <div class="game-screen">
       <% @text.each do |line| %>
         <% if line == "" %>
@@ -10,11 +10,18 @@
         <% end %>
       <% end %>
       <br>
-      <form action="/room/<%= @room.name %>" method="post">
-        <div class="form-group">
-          >:<input id="game-input" type="text" class="form-control" name="action" autofocus autocomplete="off" >
-        </div>
-      </form>
+      <% if @room.title_name != 'Escape Courtyard' %>
+        <form action="/room/<%= @room.name %>" method="post">
+          <div class="form-group">
+            >:<input id="game-input" type="text" class="form-control" name="action" autofocus autocomplete="off" >
+          </div>
+        </form>
+      <% else %>
+        <p>THE END</p>
+        <br>
+        <p>Thank you for playing Zork Asylum! You completed the game in <%= @moves %> moves.</p>
+        <p>This game was created by Kelsey Langlois, L. Devin MacKrell, Tyler Miller, and Dan Nollette.</p>
+      <% end %>
     </div>
   <% else %>
     <h2>You have gotten very lost.</h2>
