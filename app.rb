@@ -83,7 +83,7 @@ post('/room/:name') do
   if results.length > 0
     @room = results.first
     action = params.fetch(:action).downcase
-    text.push(action)
+    text.push("> " + action)
     if action.start_with?("look")
       text.push(@room.look)
       if @room.item
