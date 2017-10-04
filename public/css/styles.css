@@ -5,6 +5,14 @@ body {
   background-color: black;
 }
 
+a {
+  color: #0fce18;
+}
+
+a:hover {
+  color: #0e7713;
+}
+
 .game h2 {
   font-size: 25px;
   background-color: #d0d0d0;
@@ -43,5 +51,5 @@ body {
 }
 
 .control-option {
-  font-family: monospace;
+  color: #d959ff;
 }
