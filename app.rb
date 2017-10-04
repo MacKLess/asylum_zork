@@ -66,13 +66,15 @@ end
 get('/room/:name') do
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   @room = results.length > 0 ? results.first : nil
-  text.push(@room.title_name)
-  text.push(@room.look)
-  if @room.item
-    text.push("There is a #{@room.item.name} here.")
-  end
-  if @room.note
-    text.push("There is a note here.")
+  if @room
+    text.push(@room.title_name)
+    text.push(@room.look)
+    if @room.item
+      text.push("There is a #{@room.item.name} here.")
+    end
+    if @room.note
+      text.push("There is a note here.")
+    end
   end
   @text = text
   erb(:room)
@@ -83,6 +85,7 @@ post('/room/:name') do
   if results.length > 0
     @room = results.first
     action = params.fetch(:action).downcase
+    text.push("")
     text.push("> " + action)
     if action.start_with?("look")
       text.push(@room.look)

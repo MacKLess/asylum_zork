@@ -3,8 +3,13 @@
   <h2><%= @room.title_name %></h2>
     <div class="game-screen">
       <% @text.each do |line| %>
-        <p><%= line %></p>
+        <% if line == "" %>
+          <br>
+        <% else %>
+          <p><%= line %></p>
+        <% end %>
       <% end %>
+      <br>
       <form action="/room/<%= @room.name %>" method="post">
         <div class="form-group">
           >:<input type="text" class="form-control" name="action" autofocus autocomplete="off" >

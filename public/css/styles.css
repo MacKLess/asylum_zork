@@ -1,17 +1,20 @@
 body {
-  color: white;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: #d0d0d0;
   background-color: black;
 }
 
 .game h2 {
-  font-size: 14px;
-  background-color: white;
+  font-size: 25px;
+  background-color: #d0d0d0;
+  padding: 0px .3rem;
+  height: 16px;
+  line-height: 16px;
   color: black;
 }
 
 .game-screen {
-  background-color: black;
-  color: white;
   height: 500px;
   overflow-y: scroll
 }
@@ -32,6 +35,11 @@ body {
 ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
+}
+
+.game-screen p {
+  line-height: 20px;
+  margin-bottom: 0px;
 }
 
 .control-option {
