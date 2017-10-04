@@ -11,6 +11,11 @@ text = []
 moves = 0
 
 get('/') do
+  @index = true
+  erb(:index)
+end
+
+get('/menu') do
   # Database Reset and Setup
   text = []
   moves = 0
@@ -61,8 +66,7 @@ get('/') do
       note_text: attributes["note_text"]
     })
   end
-
-  erb(:index)
+  erb(:menu)
 end
 
 get('/room/:name') do

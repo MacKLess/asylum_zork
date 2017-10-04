@@ -5,12 +5,35 @@ body {
   background-color: black;
 }
 
+.container {
+  max-width: 900px;
+}
+
+.menu {
+  max-width: 650px;
+}
+
 a {
   color: #0fce18;
 }
 
 a:hover {
   color: #0e7713;
+}
+
+.start-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+
+.title-box {
+  text-align: center;
+}
+
+.title-box h1 {
+  font-size: 120px;
 }
 
 .game h2 {
@@ -66,4 +89,10 @@ span.moves {
 
 .control-option {
   color: #d959ff;
+}
+
+@media screen and (max-width: 575px){
+  .title-box h1{
+    font-size: 60px
+  }
 }

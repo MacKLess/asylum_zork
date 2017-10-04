@@ -11,7 +11,9 @@
   </head>
   <body>
     <div class="container">
-      <h1>ZORK ASYLUM</h1>
+      <% unless @index  %>
+        <h1>ZORK ASYLUM</h1>
+      <% end %>
       <%= yield %>
     </div>
   </body>
