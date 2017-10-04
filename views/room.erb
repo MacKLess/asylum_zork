@@ -1,26 +1,13 @@
 <% if @room %>
   <div class="game-screen">
     <h2><%= @room.title_name %></h2>
-
-    <% if @text.class == String %>
-      <p><%= @text %></p>
-    <% elsif @text.class == Array%>
-      <% if @text.any? %>
-        <ul>
-          <% @text.each do |item| %>
-            <li><%= item %></li>
-          <% end %>
-        </ul>
-      <% else %>
-        <p>Your inventory is empty.</p>
-      <% end %>
+    <% @text.each do |line| %>
+      <p><%= line %></p>
     <% end %>
     <form action="/room/<%= @room.name %>" method="post">
       <div class="form-group">
-        <label for="action">What do you want to do?</label>
         <input type="text" name="action" class="form-control" autofocus>
       </div>
-      <button type="submit" class="btn">Act!</button>
     </form>
   </div>
 <% else %>

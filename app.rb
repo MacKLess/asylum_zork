@@ -7,8 +7,11 @@ Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
+text = []
+
 get('/') do
   # Database Reset and Setup
+  text = []
   Room.all.each do |room|
     room.destroy
   end
@@ -63,13 +66,15 @@ end
 get('/room/:name') do
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   @room = results.length > 0 ? results.first : nil
-  @text = @room.look
+  text.push(@room.title_name)
+  text.push(@room.look)
   if @room.item
-    @text += " There is a #{@room.item.name} here."
+    text.push("There is a #{@room.item.name} here.")
   end
   if @room.note
-    @text += " There is a note here."
-  end 
+    text.push("There is a note here.")
+  end
+  @text = text
   erb(:room)
 end
 
@@ -78,54 +83,62 @@ post('/room/:name') do
   if results.length > 0
     @room = results.first
     action = params.fetch(:action).downcase
+    text.push(action)
     if action.start_with?("look")
-      @text = @room.look
+      text.push(@room.look)
       if @room.item
-        @text += " There is a #{@room.item.name} here."
+        text.push("There is a #{@room.item.name} here.")
       end
       if @room.note
-        @text += " There is a note here."
+        text.push("There is a note here.")
       end
+      @text = text
       erb(:room)
     elsif action.start_with?("move") || action.start_with?("go")
       new_room = @room.move(action.split(" ")[1])
       if new_room
         redirect '/room/' + new_room.name
       else
-        @text = "You can't go that way."
+        text.push("You can't go that way.")
+        @text = text
         erb(:room)
       end
     elsif action.start_with?("take")
       result = @room.take(action.split(" ")[1..-1].join(" "))
       if result
-        @text = "Taken."
+        text.push("Taken.")
       else
-        @text = "You can't take that."
+        text.push("You can't take that.")
       end
+      @text = text
       erb(:room)
     elsif action.start_with?("use")
       success_room = @room.use(action.split(" ")[1..-1].join(" "))
       if success_room
         redirect '/room/' + success_room.name
       else
-        @text = "You can't use that here."
+        text.push("You can't use that here.")
+        @text = text
         erb(:room)
       end
     elsif action.start_with?("read")
-      @text = @room.read != nil ? @room.read : "There is nothing to read here."
+      text.push(@room.read != nil ? '"' + @room.read + '"' : "There is nothing to read here.")
+      @text = text
       erb(:room)
     elsif action.start_with?("inventory")
-      @text = []
-      inventory = Item.inventory
-      @text = inventory.map do |item|
-        item.name
+      if Item.inventory.any?
+        Item.inventory.each do |item|
+          text.push(item.name)
+        end
+      else
+        text.push('Inventory is empty.')
       end
+      @text = text
       erb(:room)
     else
-      @text = "I don't understand."
+      text.push("I don't understand.")
+      @text = text
       erb(:room)
     end
-
-
   end
 end
