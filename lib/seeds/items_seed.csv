@@ -2,9 +2,10 @@ name,room,room_active
 combination,intake,1
 squeaky toy,Common-Room,1
 pig's head,kitchen,1
-harpoon,security,1
+harpoon gun,security,1
 shovel,greenhouse,0
 ring,graveyard,0
-chemical flask,baths,0
+vial,baths,0
 key,chapel-south,1
-acid,apothecary,0
+beaker,apothecary,0
+straitjacket,Warden's-office,1

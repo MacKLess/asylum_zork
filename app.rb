@@ -54,7 +54,7 @@ get('/') do
     Note.create({
       room_name: attributes["room"].downcase,
       note_text: attributes["note_text"]
-      })
+    })
   end
 
   erb(:index)
@@ -69,7 +69,7 @@ get('/room/:name') do
   end
   if @room.note
     @text += " There is a note here."
-  end 
+  end
   erb(:room)
 end
 
