@@ -3,6 +3,13 @@
 class Room < ActiveRecord::Base
   has_one :item
 
+  def title_name
+    words = self.name.split("-").each do |word|
+      word.capitalize!
+    end
+    words.join(" ")
+  end
+
   def note
     Note.find_by(room_name: self.name)
   end
