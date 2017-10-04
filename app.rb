@@ -77,7 +77,6 @@ get('/room/:name') do
     text.push(@room.look)
     text.push(@room.item ? "There is a #{@room.item.name} here." : nil)
     text.push(@room.note ? "There is a note here." : nil)
-    end
   end
   @moves = moves
   @text = text
@@ -85,7 +84,7 @@ get('/room/:name') do
 end
 
 post('/room/:name') do
-  directions = {'n' => 'north', 'e' => 'east', 'w' => 'west', 's' => 'south'}
+  directions = ['n', 'north', 'e', 'east', 'w', 'west', 's', 'south']
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   if results.length > 0
     @room = results.first
@@ -95,14 +94,18 @@ post('/room/:name') do
     text.push("")
     text.push("> " + action)
     if action.start_with?("look")
-      # look action: grabs room.look, and notes if there are items or notes as well.
+      # "look" action
+      # grabs room.look, and notes if there are items or notes as well.
       text.push(@room.look)
       text.push(@room.item ? "There is a #{@room.item.name} here." : nil)
       text.push(@room.note ? "There is a note here." : nil)
       @text = text
       erb(:room)
-    elsif action.start_with?("move") || action.start_with?("go")
-      new_room = @room.move(action.split(" ")[1] || "")
+    elsif action.start_with?("move") || action.start_with?("go") || directions.include?(action)
+      # "move" action
+      # works if user types verb + direction, or just direction.
+      # redirects to new room, or notifies about inaccessible direction.
+      new_room = @room.move(action.split(" ")[1] || action)
       if new_room
         redirect '/room/' + new_room.name
       else

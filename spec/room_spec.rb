@@ -71,6 +71,23 @@ describe('Room') do
       room2.save
       expect(room.move('north')).to eq(room2)
     end
+
+    it "allows user to input a letter instead of the full direction word" do
+      room2 = Room.new({
+        name: 'Next',
+        description: 'The Next Room.',
+        x_coordinate: 1,
+        y_coordinate: 2,
+        active: true,
+        solution_item: 'key',
+        north_exit: true,
+        east_exit: false,
+        south_exit: true,
+        west_exit: false,
+      })
+      room2.save
+      expect(room.move('n')).to eq(room2)
+    end
   end
 
   describe '#item' do
