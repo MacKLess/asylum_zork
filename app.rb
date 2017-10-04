@@ -142,10 +142,18 @@ post('/room/:name') do
       @moves = moves
       if Item.inventory.any?
         Item.inventory.each do |item|
-          text.push(item.name)
+          text.push("* " + item.name)
         end
       else
         text.push('Inventory is empty.')
+      end
+      @text = text
+      erb(:room)
+    elsif action.start_with?("help")
+      commands = ["* Inventory", "* Look", "* Move [Cardinal Direction]", "* Take [Item]", "* Use [Inventory Item]", "* Read [Note]"]
+      text.push("Commands:")
+      commands.each do |command|
+        text.push (command)
       end
       @text = text
       erb(:room)
