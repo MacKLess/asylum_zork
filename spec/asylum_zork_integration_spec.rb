@@ -52,6 +52,9 @@ describe 'room actions', { type: :feature } do
     fill_in('action', with: 'move north')
     click_button('Act!')
     expect(page).to have_content('you have entered a spooky reception')
+    fill_in('action', with: 'south')
+    click_button('Act!')
+    expect(page).to have_content('you have entered a spooky foyer')
   end
 
   it "adds an item to the user's inventory if they type 'take' and a the item's name" do
