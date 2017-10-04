@@ -1,7 +1,7 @@
 <div class="game">
   <% if @room %>
   <h2><span><%= @room.title_name %></span><span class='moves'>Moves: <%= @moves %></span></h2>
-    <div class="game-screen">
+    <div id='screen' class="game-screen">
       <% @text.each do |line| %>
         <% if line == "" %>
           <br>
@@ -21,6 +21,7 @@
         <br>
         <p>Thank you for playing Zork Asylum! You completed the game in <%= @moves %> moves.</p>
         <p>This game was created by Kelsey Langlois, L. Devin MacKrell, Tyler Miller, and Dan Nollette.</p>
+        <br>
       <% end %>
     </div>
   <% else %>
