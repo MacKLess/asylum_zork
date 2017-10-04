@@ -16,13 +16,13 @@ class Room < ActiveRecord::Base
 
   def move(direction)
     direction.downcase!
-    if (direction == "north") & north_exit
+    if ((direction == "north") | (direction == 'n')) & north_exit
       return Room.find_by_coordinates(self.x_coordinate, self.y_coordinate + 1)
-    elsif (direction == "east") & east_exit
+    elsif ((direction == "east") | (direction == 'e')) & east_exit
       return Room.find_by_coordinates(self.x_coordinate + 1, self.y_coordinate)
-    elsif (direction == "south") & south_exit
+    elsif ((direction == "south") | (direction == 's')) & south_exit
       return Room.find_by_coordinates(self.x_coordinate, self.y_coordinate - 1)
-    elsif (direction == "west") & west_exit
+    elsif ((direction == "west") | (direction == 'w')) & west_exit
       return Room.find_by_coordinates(self.x_coordinate - 1, self.y_coordinate)
     else
       return nil

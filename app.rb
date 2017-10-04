@@ -11,6 +11,11 @@ text = []
 moves = 0
 
 get('/') do
+  @index = true
+  erb(:index)
+end
+
+get('/menu') do
   # Database Reset and Setup
   text = []
   moves = 0
@@ -61,8 +66,7 @@ get('/') do
       note_text: attributes["note_text"]
     })
   end
-
-  erb(:index)
+  erb(:menu)
 end
 
 get('/room/:name') do
@@ -71,12 +75,8 @@ get('/room/:name') do
   if @room
     text.push(@room.title_name)
     text.push(@room.look)
-    if @room.item
-      text.push("There is a #{@room.item.name} here.")
-    end
-    if @room.note
-      text.push("There is a note here.")
-    end
+    text.push(@room.item ? "There is a #{@room.item.name} here." : nil)
+    text.push(@room.note ? "There is a note here." : nil)
   end
   @moves = moves
   @text = text
@@ -84,6 +84,7 @@ get('/room/:name') do
 end
 
 post('/room/:name') do
+  directions = ['n', 'north', 'e', 'east', 'w', 'west', 's', 'south']
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   if results.length > 0
     @room = results.first
@@ -93,17 +94,18 @@ post('/room/:name') do
     text.push("")
     text.push("> " + action)
     if action.start_with?("look")
+      # "look" action
+      # grabs room.look, and notes if there are items or notes as well.
       text.push(@room.look)
-      if @room.item
-        text.push("There is a #{@room.item.name} here.")
-      end
-      if @room.note
-        text.push("There is a note here.")
-      end
+      text.push(@room.item ? "There is a #{@room.item.name} here." : nil)
+      text.push(@room.note ? "There is a note here." : nil)
       @text = text
       erb(:room)
-    elsif action.start_with?("move") || action.start_with?("go")
-      new_room = @room.move(action.split(" ")[1] || "")
+    elsif action.start_with?("move") || action.start_with?("go") || directions.include?(action)
+      # "move" action
+      # works if user types verb + direction, or just direction.
+      # redirects to new room, or notifies about inaccessible direction.
+      new_room = @room.move(action.split(" ")[1] || action)
       if new_room
         redirect '/room/' + new_room.name
       else
@@ -138,10 +140,18 @@ post('/room/:name') do
       @moves = moves
       if Item.inventory.any?
         Item.inventory.each do |item|
-          text.push(item.name)
+          text.push("* " + item.name)
         end
       else
         text.push('Inventory is empty.')
+      end
+      @text = text
+      erb(:room)
+    elsif action.start_with?("help")
+      commands = ["* Inventory", "* Look", "* Move [Cardinal Direction]", "* Take [Item]", "* Use [Inventory Item]", "* Read [Note]"]
+      text.push("Commands:")
+      commands.each do |command|
+        text.push (command)
       end
       @text = text
       erb(:room)
