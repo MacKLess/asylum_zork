@@ -13,7 +13,7 @@ _A Zork homage set in a haunted asylum. Built in Ruby Script using Active Record
 _You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://stark-eyrie-10328.herokuapp.com/). For the best experience, we recommend installing the game on your own machine via the following steps:_
 
 * Clone this repository at [https://github.com/MacKLess/asylum_zork.git](https://github.com/MacKLess/asylum_zork.git)
-* Ensure you have Postgres installed and running ([instructions here](https://www.learnhowtoprogram.com/ruby/ruby-database-basics/installing-postgres-7fb0cff7-a0f5-4b61-a0db-8a928b9f67ef)))
+* Ensure you have Postgres installed and running ([instructions here](https://www.learnhowtoprogram.com/ruby/ruby-database-basics/installing-postgres-7fb0cff7-a0f5-4b61-a0db-8a928b9f67ef))
 * To set up the development database, run the following commands in the project's root directory:
   * ```bundle install```
   * ```rake db:create```
@@ -36,7 +36,7 @@ _You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://sta
 
 ## Known Bugs
 
-* Multiple users playing the game on Heroku creates errors, as all instances operate on the same database. Since the heroku app only supports one player at a time, it's recommended that users download and run the app using a local database.
+* Multiple users playing the game on Heroku creates errors, as all instances operate on the same database. Since the Heroku app only supports one player at a time, it's recommended that users download and run the app using a local database.
 
 ## Support and contact details
 
