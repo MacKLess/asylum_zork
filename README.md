@@ -10,6 +10,8 @@ _A Zork inspired remake set in a haunted asylum and built in Ruby Script using A
 
 ## Setup/Installation Requirements
 
+_You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://stark-eyrie-10328.herokuapp.com/)
+
 * Clone this repository at [https://github.com/MacKLess/asylum_zork.git](https://github.com/MacKLess/asylum_zork.git)
 * Ensure you have Postgres installed and running ([instructions here](https://www.learnhowtoprogram.com/ruby/ruby-database-basics/installing-postgres-7fb0cff7-a0f5-4b61-a0db-8a928b9f67ef)))
 * Create a database ```asylum_zork_development``` by running the command ```createdb -T template0 asylum_zork_development```
