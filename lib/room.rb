@@ -38,23 +38,23 @@ class Room < ActiveRecord::Base
     end
   end
 
-  def take(item)
+  def take(item_name)
     if self.item
-      if item.downcase == self.item.name.downcase
+      if Item.recognize(item_name) == self.item
         return self.item.update({room_id: nil, in_inventory: true})
       end
     end
     return false
   end
 
-  def use(item)
+  def use(item_name)
     if self.solution_item
-      if (item.downcase == self.solution_item.downcase) & Item.in_inventory?(item)
+      use_item = Item.recognize(item_name)
+      if (use_item == Item.find_by(name: self.solution_item)) & use_item.in_inventory
         success_room = Room.where("name = ? AND active = ?", self.name, false).first
         self.update({active: false})
         success_room.update({active: true})
-        item = Item.find_by(name: item.downcase)
-        item.update({in_inventory: false})
+        use_item.update({in_inventory: false})
         return success_room
       end
     end
