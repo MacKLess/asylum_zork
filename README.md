@@ -6,17 +6,20 @@
 
 ## Description
 
-_A Zork inspired remake set in a haunted asylum and built in Ruby Script using Active Record and SQL._
+_A Zork homage set in a haunted asylum. Built in Ruby Script using Active Record and SQL._
 
 ## Setup/Installation Requirements
 
-_You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://stark-eyrie-10328.herokuapp.com/)
+_You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://stark-eyrie-10328.herokuapp.com/). For the best experience, we recommend installing the game on your own machine via the following steps:_
 
 * Clone this repository at [https://github.com/MacKLess/asylum_zork.git](https://github.com/MacKLess/asylum_zork.git)
 * Ensure you have Postgres installed and running ([instructions here](https://www.learnhowtoprogram.com/ruby/ruby-database-basics/installing-postgres-7fb0cff7-a0f5-4b61-a0db-8a928b9f67ef)))
-* Create a database ```asylum_zork_development``` by running the command ```createdb -T template0 asylum_zork_development```
-* Run the command ```psql asylum_zork_development < my_database.sql``` in the project root directory
-* Run the command ```ruby app.rb``` in the project root directory
+* To set up the development database, run the following commands in the project's root directory:
+  * ```bundle install```
+  * ```rake db:create```
+  * ```rake db:environment:set```
+  * ```rake db:migrate```
+* After the development database is set up, run ```ruby app.rb``` in the project's root directory
 * Open ```localhost:4567``` in your web browser
 
 ## Specifications
@@ -30,6 +33,10 @@ _You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://sta
 * _User will be able to view the room by using the "look" command._
 * _User will be able to review commands by using the "help" command._
 * _User will be provided with a score/assessment upon completion of the game._
+
+## Known Bugs
+
+* Multiple users playing the game on Heroku creates errors, as all instances operate on the same database. Since the heroku app only supports one player at a time, it's recommended that users download and run the app using a local database.
 
 ## Support and contact details
 
