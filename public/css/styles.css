@@ -14,13 +14,12 @@ h1 {
   padding-bottom: 40px;
 }
 
-.menu {
-  max-width: 650px;
-}
-
 .ascii-art {
   font-family: monospace;
   color: #0fce18;
+  width: 666px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #enter-link {
@@ -100,6 +99,10 @@ span.moves {
 
 .control-option {
   color: #d959ff;
+}
+
+.attribution {
+  text-align: center;
 }
 
 #game-input {
