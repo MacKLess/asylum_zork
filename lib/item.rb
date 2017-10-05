@@ -10,4 +10,12 @@ class Item < ActiveRecord::Base
     result = Item.where("name = ? AND in_inventory = ?", item.downcase, true)
     return result.length > 0
   end
+
+  def self.recognize(term)
+    Item.all.each do |item|
+      if (item.name == term) | item.name.downcase.split(" ").include?(term.downcase)
+        return item
+      end
+    end
+  end
 end
