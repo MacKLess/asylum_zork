@@ -50,12 +50,14 @@ class Room < ActiveRecord::Base
   def use(item_name)
     if self.solution_item
       use_item = Item.recognize(item_name)
-      if (use_item == Item.find_by(name: self.solution_item)) & use_item.in_inventory
-        success_room = Room.where("name = ? AND active = ?", self.name, false).first
-        self.update({active: false})
-        success_room.update({active: true})
-        use_item.update({in_inventory: false})
-        return success_room
+      if use_item
+        if (use_item == Item.find_by(name: self.solution_item)) & use_item.in_inventory
+          success_room = Room.where("name = ? AND active = ?", self.name, false).first
+          self.update({active: false})
+          success_room.update({active: true})
+          use_item.update({in_inventory: false})
+          return success_room
+        end
       end
     end
   end

@@ -12,5 +12,6 @@ class Item < ActiveRecord::Base
         return item
       end
     end
+    nil
   end
 end

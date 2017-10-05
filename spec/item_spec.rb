@@ -27,5 +27,11 @@ describe('Item') do
       expect(Item.recognize('harpoon')).to(eq(item))
       expect(Item.recognize('gun')).to(eq(item))
     end
+
+    it "returns nil if an item is not recognized" do
+      item.name = "pig's head"
+      item.save
+      expect(Item.recognize('pig head')).to eq(nil)
+    end
   end
 end
