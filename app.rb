@@ -2,7 +2,6 @@
 
 require("bundler/setup")
 require("csv")
-require "pry"
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
