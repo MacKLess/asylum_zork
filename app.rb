@@ -95,6 +95,7 @@ post('/room/:name') do
     if action.start_with?("look")
       # "look" action
       # grabs room.look, and notes if there are items or notes as well.
+      text.push(@room.title_name)
       text.push(@room.look)
       text.push(@room.item ? "There is a #{@room.item.name} here." : nil)
       text.push(@room.note ? "There is a note here." : nil)
