@@ -40,7 +40,7 @@ class Room < ActiveRecord::Base
 
   def take(item)
     if self.item
-      if item.downcase == self.item.name.downcase
+      if Item.recognize(item) == self.item
         return self.item.update({room_id: nil, in_inventory: true})
       end
     end

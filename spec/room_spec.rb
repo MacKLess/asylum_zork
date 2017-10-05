@@ -108,6 +108,16 @@ describe('Room') do
       expect(Item.find(item.id).in_inventory).to eq(true)
       expect(Room.find(room.id).item).to eq(nil)
     end
+
+    it "allows user to input one word of item" do
+      room.save
+      item.room_id = room.id
+      item.name = 'harpoon gun'
+      item.save
+      room.take('harpoon')
+      expect(Item.find(item.id).in_inventory).to eq(true)
+      expect(Room.find(room.id).item).to eq(nil)
+    end
   end
 
   describe('#use') do
