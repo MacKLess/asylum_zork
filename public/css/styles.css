@@ -55,7 +55,8 @@ a:hover {
   font-size: 25px;
   background-color: #d0d0d0;
   padding: 0px .3rem;
-  height: 18px;
+  height: 24px;
+  padding-top: 4px;
   line-height: 16px;
   color: black;
 }
