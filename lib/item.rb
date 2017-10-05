@@ -8,7 +8,7 @@ class Item < ActiveRecord::Base
 
   def self.recognize(term)
     Item.all.each do |item|
-      if (item.name == term) | item.name.downcase.split(" ").include?(term.downcase)
+      if (item.name.downcase == term.downcase) | item.name.downcase.split(" ").include?(term.downcase)
         return item
       end
     end
