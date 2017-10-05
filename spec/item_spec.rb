@@ -17,14 +17,6 @@ describe('Item') do
     end
   end
 
-  describe('.in_inventory') do
-    it("returns whether a specific item is in the inventory") do
-      item.in_inventory = true
-      item.save
-      expect(Item.in_inventory?(item.name)).to eq(true)
-    end
-  end
-
   describe('.recognize') do
     it "finds an item by one word in its name" do
       item = Item.create({

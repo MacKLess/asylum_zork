@@ -124,13 +124,39 @@ describe('Room') do
     it("returns the room's success version if the item is correct and in the user's inventory, and marks item as used") do
       item.in_inventory = true
       item.save
+      room.save
+      room2 = Room.create({
+        name: 'Start',
+        description: 'The First Room.',
+        x_coordinate: 1,
+        y_coordinate: 1,
+        active: false,
+        solution_item: nil,
+        north_exit: true,
+        east_exit: false,
+        south_exit: true,
+        west_exit: true,
+        first_impression: 'you have used the key!',
+        visited: false
+      })
+      expect(room.use("key")).to eq(room2)
+      expect(Room.find(room2.id).active).to eq(true)
+      expect(Item.find(item.id).in_inventory).to eq(false)
+    end
+
+    it "allows user to input one word of item name" do
+      item.in_inventory = true
+      item.name = 'rusty key'
+      item.save
+      room.solution_item = 'rusty key'
+      room.save
       room2 = Room.create({
        name: 'Start',
        description: 'The First Room.',
        x_coordinate: 1,
        y_coordinate: 1,
        active: false,
-       solution_item: 'key',
+       solution_item: nil,
        north_exit: true,
        east_exit: false,
        south_exit: true,
