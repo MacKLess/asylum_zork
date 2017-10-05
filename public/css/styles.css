@@ -5,12 +5,28 @@ body {
   background-color: black;
 }
 
+h1 {
+  font-size: 54px;
+}
+
 .container {
   max-width: 900px;
+  padding-bottom: 40px;
 }
 
 .menu {
   max-width: 650px;
+}
+
+.ascii-art {
+  font-family: monospace;
+  color: #0fce18;
+}
+
+#enter-link {
+  text-align: center;
+  font-size: 40px;
+  margin: 40px;
 }
 
 a {
