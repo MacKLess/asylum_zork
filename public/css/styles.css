@@ -40,7 +40,7 @@ a:hover {
   font-size: 25px;
   background-color: #d0d0d0;
   padding: 0px .3rem;
-  height: 16px;
+  height: 18px;
   line-height: 16px;
   color: black;
 }
@@ -78,7 +78,7 @@ span.moves {
 }
 
 .game-screen p {
-  line-height: 20px;
+  line-height: 22px;
   margin-bottom: 0px;
 }
 

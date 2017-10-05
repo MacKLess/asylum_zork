@@ -148,7 +148,7 @@ post('/room/:name') do
       @text = text
       erb(:room)
     elsif action.start_with?("help")
-      commands = ["* Inventory", "* Look", "* Move [Cardinal Direction]", "* Take [Item]", "* Use [Inventory Item]", "* Read [Note]"]
+      commands = ["* Inventory", "* Look", "* Move [Cardinal Direction or N, E, S, W]", "* Take [Item]", "* Use [Inventory Item]", "* Read [Note]"]
       text.push("Commands:")
       commands.each do |command|
         text.push (command)
