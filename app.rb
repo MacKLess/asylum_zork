@@ -6,6 +6,7 @@ Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
+# tracks user's game log and moves
 text = []
 moves = 0
 
@@ -15,7 +16,7 @@ get('/') do
 end
 
 get('/menu') do
-  # Database Reset and Setup
+  # Game Reset and Setup
   text = []
   moves = 0
   Room.all.each do |room|
@@ -69,6 +70,7 @@ get('/menu') do
 end
 
 get('/room/:name') do
+  # gets a new room, either due to movement or solving a puzzle.
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   @room = results.length > 0 ? results.first : nil
   if @room
@@ -88,8 +90,10 @@ post('/room/:name') do
   if results.length > 0
     @room = results.first
     action = params.fetch(:action).downcase
+    # tracks users moves and displays
     moves += 1
     @moves = moves
+    # start of log for this turn
     text.push("")
     text.push("> " + action)
     if action.start_with?("look")
@@ -114,6 +118,8 @@ post('/room/:name') do
         erb(:room)
       end
     elsif action.start_with?("take")
+      # "take" action
+      # if user inputs name, or one word of name, of item in current room, the item is added to inventory
       result = @room.take(action.split(" ")[1..-1].join(" ") || "")
       if result
         text.push("Taken.")
@@ -123,6 +129,8 @@ post('/room/:name') do
       @text = text
       erb(:room)
     elsif action.start_with?("use")
+      # "use" action
+      # room.use returns the 'success' version of a room if correct item is used
       success_room = @room.use(action.split(" ")[1..-1].join(" ") || "")
       if success_room
         redirect '/room/' + success_room.name
@@ -132,10 +140,15 @@ post('/room/:name') do
         erb(:room)
       end
     elsif action.start_with?("read")
+      # "read" action
+      # returns the text of a room's note, or notifies user that there is no note to read
       text.push(@room.read != nil ? '"' + @room.read + '"' : "There is nothing to read here.")
       @text = text
       erb(:room)
     elsif action.start_with?("inventory")
+      # "inventory" action
+      # displays all items in inventory
+      # does not count as a move
       moves -= 1
       @moves = moves
       if Item.inventory.any?
@@ -148,14 +161,20 @@ post('/room/:name') do
       @text = text
       erb(:room)
     elsif action.start_with?("help")
-      commands = ["* Inventory", "* Look", "* Move [Cardinal Direction or N, E, S, W]", "* Take [Item]", "* Use [Inventory Item]", "* Read [Note]"]
+      # "help" action
+      # returns all commands user can enter
+      # does not count as a move
+      moves -= 1
+      @moves = moves
+      commands = ["Inventory", "Look", "Move [Cardinal Direction or N, E, S, W]", "Take [Item]", "Use [Inventory Item]", "Read [Note]", "Help"]
       text.push("Commands:")
       commands.each do |command|
-        text.push (command)
+        text.push ("* " + command)
       end
       @text = text
       erb(:room)
     else
+      # Anything that is not recognized by the above code, game does not understand.
       text.push("I don't understand.")
       @text = text
       erb(:room)
