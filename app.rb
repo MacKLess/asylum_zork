@@ -6,9 +6,14 @@ Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
+enable :sessions
 # tracks user's game log and moves
 text = []
 moves = 0
+
+before do
+  @user = session[:id] != nil ? User.find(session[:id]) : nil
+end
 
 get('/') do
   @index = true

@@ -24,5 +24,9 @@ RSpec.configure do |config|
     Note.all.each do |note|
       note.destroy
     end
+
+    User.all.each do |user|
+      user.destroy
+    end
   end
 end
