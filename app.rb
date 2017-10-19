@@ -2,11 +2,13 @@
 
 require("bundler/setup")
 require("csv")
+require "pry"
 Bundler.require(:default)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
-enable :sessions
+set :sessions, true
+
 # tracks user's game log and moves
 text = []
 moves = 0
@@ -35,6 +37,10 @@ get('/menu') do
   Note.all.each do |note|
     note.destroy
   end
+
+  user = User.create({moves: 0, game_text: ""});
+  session[:id] = user.id
+  binding.pry
 
   CSV.foreach('./lib/seeds/room_seeds.csv', headers: true) do |row|
     attributes = row.to_hash
@@ -75,6 +81,7 @@ get('/menu') do
 end
 
 get('/room/:name') do
+  binding.pry
   # gets a new room, either due to movement or solving a puzzle.
   results = Room.where("name = ? AND active = ?", params.fetch(:name), true)
   @room = results.length > 0 ? results.first : nil
