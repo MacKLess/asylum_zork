@@ -43,6 +43,7 @@ class Room < ActiveRecord::Base
     end
   end
 
+  # Added to UserRoom: Can Remove
   def take(item_name)
     if self.item
       if Item.recognize(item_name) == self.item

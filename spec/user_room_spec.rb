@@ -48,4 +48,22 @@ describe('UserRoom') do
       expect(user_room.read).to eq("This is a Note!")
     end
   end
+
+  describe('.take') do
+    it "moves the room's item from the room to inventory" do
+      user = User.create({
+        moves: 0,
+        game_text: ""
+        })
+      item = Item.create({
+        name: "keycard",
+        room_id: room.id,
+        })
+      user_room.item_id = item.id
+      user_room.user_id = user.id
+      user_room.take(item.name)
+      expect(user.items).to eq([item])
+      expect(user_room.item).to eq(nil)
+    end
+  end
 end
