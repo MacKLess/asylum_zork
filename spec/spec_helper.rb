@@ -28,5 +28,9 @@ RSpec.configure do |config|
     User.all.each do |user|
       user.destroy
     end
+
+    InventoryItem.all.each do |inv_item|
+      inv_item.destroy
+    end
   end
 end

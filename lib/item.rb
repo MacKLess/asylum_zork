@@ -2,6 +2,9 @@
 
 class Item < ActiveRecord::Base
   belongs_to :room
+  has_many :inventory_items
+  has_many :users, through: :inventory_items
+  
   scope(:inventory, -> do
     where({:in_inventory => true})
   end)

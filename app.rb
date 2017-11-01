@@ -38,6 +38,7 @@ get('/menu') do
     note.destroy
   end
 
+  # MAKE NEW USER 
   user = User.create({moves: 0, game_text: ""});
   session[:id] = user.id
 
