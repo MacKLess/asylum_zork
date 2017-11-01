@@ -38,4 +38,14 @@ describe('UserRoom') do
       expect(user_room.look).to eq('The First Room.')
     end
   end
+
+  describe('.read') do
+    it "returns the text of the room's note" do
+      note = Note.create({
+        room_name: room.name,
+        note_text: "This is a Note!"
+        })
+      expect(user_room.read).to eq("This is a Note!")
+    end
+  end
 end

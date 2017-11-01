@@ -14,4 +14,8 @@ class UserRoom < ActiveRecord::Base
       return self.room.description
     end
   end
+
+  def read
+    return self.room.read
+  end
 end
