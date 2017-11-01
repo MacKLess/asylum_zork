@@ -33,7 +33,7 @@ class Room < ActiveRecord::Base
     end
   end
 
-  # Added to UserRoom
+  # Added to UserRoom: Can Remove
   def look
     if !self.visited
       self.update({visited: true})
