@@ -13,6 +13,7 @@ class Room < ActiveRecord::Base
     words.join(" ")
   end
 
+  # KEEP THIS: USED BY USER_ROOMS
   def note
     Note.find_by(room_name: self.name)
   end
@@ -66,6 +67,7 @@ class Room < ActiveRecord::Base
     end
   end
 
+  # KEEP THIS: USED BY USER_ROOMS
   def read
     if self.note
       return self.note.note_text
