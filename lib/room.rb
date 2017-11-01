@@ -2,6 +2,9 @@
 
 class Room < ActiveRecord::Base
   has_one :item
+  has_one :note
+  has_many :user_rooms
+  has_many :users, through: :user_rooms
 
   def title_name
     words = self.name.split("-").each do |word|
