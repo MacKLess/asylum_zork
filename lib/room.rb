@@ -21,13 +21,13 @@ class Room < ActiveRecord::Base
   def move(direction)
     direction.downcase!
     if ((direction == "north") | (direction == 'n')) & north_exit
-      return Room.find_by_coordinates(self.x_coordinate, self.y_coordinate + 1)
+      return Room.find_by_coordinates(self.user_id, self.x_coordinate, self.y_coordinate + 1)
     elsif ((direction == "east") | (direction == 'e')) & east_exit
-      return Room.find_by_coordinates(self.x_coordinate + 1, self.y_coordinate)
+      return Room.find_by_coordinates(self.user_id, self.x_coordinate + 1, self.y_coordinate)
     elsif ((direction == "south") | (direction == 's')) & south_exit
-      return Room.find_by_coordinates(self.x_coordinate, self.y_coordinate - 1)
+      return Room.find_by_coordinates(self.user_id, self.x_coordinate, self.y_coordinate - 1)
     elsif ((direction == "west") | (direction == 'w')) & west_exit
-      return Room.find_by_coordinates(self.x_coordinate - 1, self.y_coordinate)
+      return Room.find_by_coordinates(self.user_id, self.x_coordinate - 1, self.y_coordinate)
     else
       return nil
     end
@@ -43,7 +43,7 @@ class Room < ActiveRecord::Base
     end
   end
 
-  # Probably fine once Item.recognize is updated
+  # Updated
   def take(item_name)
     if self.item
       if Item.recognize(item_name, self.user_id) == self.item

@@ -80,6 +80,7 @@ describe('Room') do
         east_exit: false,
         south_exit: true,
         west_exit: false,
+        user_id: user.id
       })
       room2.save
       expect(room.move('north')).to eq(room2)
@@ -97,9 +98,42 @@ describe('Room') do
         east_exit: false,
         south_exit: true,
         west_exit: false,
+        user_id: user.id
       })
       room2.save
       expect(room.move('n')).to eq(room2)
+    end
+
+    it "does not allow user to move to a room not assigned to them" do
+      room2 = Room.new({
+        name: 'Next',
+        description: 'The Next Room.',
+        x_coordinate: 1,
+        y_coordinate: 2,
+        active: true,
+        solution_item: 'key',
+        north_exit: true,
+        east_exit: false,
+        south_exit: true,
+        west_exit: false,
+        user_id: user.id + 1
+      })
+      room2.save
+      room3 = Room.new({
+        name: 'Next',
+        description: 'The Next Room.',
+        x_coordinate: 1,
+        y_coordinate: 2,
+        active: true,
+        solution_item: 'key',
+        north_exit: true,
+        east_exit: false,
+        south_exit: true,
+        west_exit: false,
+        user_id: user.id
+      })
+      room3.save
+      expect(room.move('north')).to eq(room3)
     end
   end
 
