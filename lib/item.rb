@@ -3,12 +3,14 @@
 class Item < ActiveRecord::Base
   belongs_to :room
   belongs_to :user
-  scope(:inventory, -> do
-    where({:in_inventory => true})
-  end)
 
-  def self.recognize(term)
-    Item.all.each do |item|
+  def self.inventory(user_id)
+    Item.where("user_id = ? AND in_inventory = ?", user_id, true)
+  end
+
+  # Update
+  def self.recognize(term, user_id)
+    Item.where("user_id = ?", user_id).each do |item|
       if (item.name.downcase == term.downcase) | item.name.downcase.split(" ").include?(term.downcase)
         return item
       end

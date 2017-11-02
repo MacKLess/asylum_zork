@@ -15,10 +15,10 @@ describe('Item') do
   }) }
 
   describe('.inventory') do
-    it("returns all items in inventory") do
+    it("returns all items in a user's inventory") do
       item.in_inventory = true
       item.save
-      expect(Item.inventory).to eq([item])
+      expect(Item.inventory(user.id)).to eq([item])
     end
   end
 
@@ -26,17 +26,18 @@ describe('Item') do
     it "finds an item by one word in its name" do
       item = Item.create({
         name: 'harpoon gun',
+        user_id: user.id,
         room_id: nil,
         in_inventory: false
       })
-      expect(Item.recognize('harpoon')).to(eq(item))
-      expect(Item.recognize('gun')).to(eq(item))
+      expect(Item.recognize('harpoon', user.id)).to(eq(item))
+      expect(Item.recognize('gun', user.id)).to(eq(item))
     end
 
     it "returns nil if an item is not recognized" do
       item.name = "pig's head"
       item.save
-      expect(Item.recognize('pig head')).to eq(nil)
+      expect(Item.recognize('pig head', user.id)).to eq(nil)
     end
   end
 
