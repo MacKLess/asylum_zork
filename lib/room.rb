@@ -17,7 +17,7 @@ class Room < ActiveRecord::Base
     Note.find_by(room_name: self.name)
   end
 
-  # Update
+  # Updated
   def move(direction)
     direction.downcase!
     if ((direction == "north") | (direction == 'n')) & north_exit
@@ -56,10 +56,10 @@ class Room < ActiveRecord::Base
   # Update
   def use(item_name)
     if self.solution_item
-      use_item = Item.recognize(item_name)
+      use_item = Item.recognize(item_name, self.user_id)
       if use_item
-        if (use_item == Item.find_by(name: self.solution_item)) & use_item.in_inventory
-          success_room = Room.where("name = ? AND active = ?", self.name, false).first
+        if (use_item.name ==  self.solution_item) & use_item.in_inventory
+          success_room = Room.where("user_id = ? AND name = ? AND active = ?", self.user_id, self.name, false).first
           self.update({active: false})
           success_room.update({active: true})
           use_item.update({in_inventory: false})
@@ -67,6 +67,7 @@ class Room < ActiveRecord::Base
         end
       end
     end
+    return false
   end
 
   # Fine
