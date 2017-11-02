@@ -7,6 +7,7 @@ describe('Room') do
     game_text: "",
     moves: 0
     })}
+
   let(:room) { Room.new({
     name: 'Start',
     description: 'The First Room.',
@@ -47,12 +48,18 @@ describe('Room') do
   describe '.find_by_coordinates' do
     it "returns the active room with the coordinates passed in" do
       room.save
-      expect(Room.find_by_coordinates(1, 1)).to eq(room)
+      expect(Room.find_by_coordinates(user.id, 1, 1)).to eq(room)
     end
 
     it "returns nil if no active room with the coordinates passed in" do
       room.save
-      expect(Room.find_by_coordinates(0, 0)).to eq(nil)
+      expect(Room.find_by_coordinates(user.id, 0, 0)).to eq(nil)
+    end
+
+    it "returns room associated with user id" do
+      room.user_id = user.id + 1
+      room.save
+      expect(Room.find_by_coordinates(user.id, 1, 1)).to eq(nil)
     end
   end
 

@@ -4,6 +4,7 @@ class Room < ActiveRecord::Base
   has_one :item
   belongs_to :user
 
+  # Fine
   def title_name
     words = self.name.split("-").each do |word|
       word.capitalize!
@@ -11,10 +12,12 @@ class Room < ActiveRecord::Base
     words.join(" ")
   end
 
+  # Fine
   def note
     Note.find_by(room_name: self.name)
   end
 
+  # Update
   def move(direction)
     direction.downcase!
     if ((direction == "north") | (direction == 'n')) & north_exit
@@ -30,6 +33,7 @@ class Room < ActiveRecord::Base
     end
   end
 
+  # Fine
   def look
     if !self.visited
       self.update({visited: true})
@@ -39,6 +43,7 @@ class Room < ActiveRecord::Base
     end
   end
 
+  # Probably fine once Item.recognize is updated
   def take(item_name)
     if self.item
       if Item.recognize(item_name) == self.item
@@ -48,6 +53,7 @@ class Room < ActiveRecord::Base
     return false
   end
 
+  # Update
   def use(item_name)
     if self.solution_item
       use_item = Item.recognize(item_name)
@@ -63,6 +69,7 @@ class Room < ActiveRecord::Base
     end
   end
 
+  # Fine
   def read
     if self.note
       return self.note.note_text
@@ -71,8 +78,9 @@ class Room < ActiveRecord::Base
     end
   end
 
-  def self.find_by_coordinates(x, y)
-    results = Room.where("x_coordinate = ? AND y_coordinate = ? AND active = ?", x, y, true)
+  # Update
+  def self.find_by_coordinates(user_id, x, y)
+    results = Room.where("user_id = ? AND x_coordinate = ? AND y_coordinate = ? AND active = ?", user_id, x, y, true)
     if results.length > 0
       return results.first
     else
