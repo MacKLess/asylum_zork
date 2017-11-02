@@ -3,6 +3,10 @@
 require 'spec_helper'
 
 describe('Room') do
+  let(:user) { User.create({
+    game_text: "",
+    moves: 0
+    })}
   let(:room) { Room.new({
     name: 'Start',
     description: 'The First Room.',
@@ -15,12 +19,14 @@ describe('Room') do
     south_exit: true,
     west_exit: true,
     first_impression: 'you have entered a spooky foyer',
-    visited: false
+    visited: false,
+    user_id: user.id
   }) }
 
   let(:item) { Item.new({
     name: "key",
     room_id: nil,
+    user_id: user.id,
     in_inventory: false,
   }) }
 
@@ -191,4 +197,12 @@ describe('Room') do
       expect(room.read).to eq("This is a super scary note.")
     end
   end
+
+  describe '#user' do
+    it "returns the user a room is assigned to" do
+      room.save
+      expect(room.user).to eq(user)
+    end
+  end
+
 end

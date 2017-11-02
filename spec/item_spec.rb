@@ -3,9 +3,14 @@
 require 'spec_helper'
 
 describe('Item') do
+  let(:user) { User.create({
+    game_text: "",
+    moves: 0
+    })}
   let(:item) { Item.new({
     name: "key",
     room_id: nil,
+    user_id: user.id,
     in_inventory: false,
   }) }
 
@@ -34,4 +39,12 @@ describe('Item') do
       expect(Item.recognize('pig head')).to eq(nil)
     end
   end
+
+  describe '#user' do
+    it "returns the user an item is assigned to" do
+      item.save
+      expect(item.user).to eq(user)
+    end
+  end
+
 end
