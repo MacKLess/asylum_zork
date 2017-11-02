@@ -46,7 +46,7 @@ class Room < ActiveRecord::Base
   # Probably fine once Item.recognize is updated
   def take(item_name)
     if self.item
-      if Item.recognize(item_name) == self.item
+      if Item.recognize(item_name, self.user_id) == self.item
         return self.item.update({room_id: nil, in_inventory: true})
       end
     end
@@ -78,7 +78,7 @@ class Room < ActiveRecord::Base
     end
   end
 
-  # Update
+  # Updated
   def self.find_by_coordinates(user_id, x, y)
     results = Room.where("user_id = ? AND x_coordinate = ? AND y_coordinate = ? AND active = ?", user_id, x, y, true)
     if results.length > 0
