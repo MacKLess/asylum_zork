@@ -20,10 +20,10 @@ RSpec.configure do |config|
     Item.all.each do |item|
       item.destroy
     end
-
-    Note.all.each do |note|
-      note.destroy
-    end
+    # 
+    # Note.all.each do |note|
+    #   note.destroy
+    # end
 
     User.all.each do |user|
       user.destroy
