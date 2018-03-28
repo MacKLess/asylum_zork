@@ -10,7 +10,7 @@ _A Zork homage set in a haunted asylum. Built in Ruby Script using Active Record
 
 ## Setup/Installation Requirements
 
-_You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://stark-eyrie-10328.herokuapp.com/). For the best experience, we recommend installing the game on your own machine via the following steps:_
+_You can play this game online at: [stark-eyrie-10328.herokuapp.com](https://stark-eyrie-10328.herokuapp.com/). To install the game on your own machine use the following steps:_
 
 * Clone this repository at [https://github.com/MacKLess/asylum_zork.git](https://github.com/MacKLess/asylum_zork.git)
 * Ensure you have Postgres installed and running ([instructions here](https://www.learnhowtoprogram.com/ruby/ruby-database-basics/installing-postgres-7fb0cff7-a0f5-4b61-a0db-8a928b9f67ef))
@@ -51,6 +51,6 @@ _Please contact [kels.langlois@gmail.com](mailto:kels.langlois@gmail.com), [ldma
 
 ### License
 
-Copyright (c) 2017 **Kelsey Langlois, L. Devin MacKrell, Tyler Miller, Dan Nollette**
+Copyright (c) 2018 **Kelsey Langlois, L. Devin MacKrell, Tyler Miller, Dan Nollette**
 
 *This software is licensed under the MIT license.*
