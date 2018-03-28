@@ -38,5 +38,12 @@ describe('User') do
     end
   end
 
-
+  describe '.clear_expired' do
+    it "removes all user data for users who have not accessed their session within the allowed timeframe" do
+      user.update({updated_at: Time.now - (60)})
+      user2 = User.create({ game_text: "", moves: 0})
+      User.clear_expired(60)
+      expect(User.all).to eq([user2])
+    end
+  end
 end

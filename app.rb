@@ -22,11 +22,6 @@ CSV.foreach('./lib/seeds/notes_seed.csv', headers: true) do |row|
   })
 end
 
-#Remove later. Not necessary with versioning
-# tracks user's game log and moves
-# text = []
-# moves = 0
-
 before do
   @user = session[:id] != nil ? User.find(session[:id]) : nil
 end
