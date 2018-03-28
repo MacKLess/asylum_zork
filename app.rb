@@ -45,6 +45,9 @@ get('/menu') do
     session[:id] = nil
   end
 
+  # Remove expired user sessions and game database ( >= 48 hours)
+  User.clear_expired(60 * 60 * 48)
+
   #Create new user session and game data
   @user = User.create({moves: 0, game_text: ""});
   session[:id] = @user.id

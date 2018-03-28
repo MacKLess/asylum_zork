@@ -105,4 +105,12 @@ describe 'user session', { type: :feature} do
     expect(Room.all).to eq([])
     expect(Item.all).to eq([])
   end
+
+  it "when creating new user, automatically clears inactive user sessions and game data" do
+    user = User.create({ game_text: "", moves: 0})
+    user.update( updated_at: Time.now - (60 * 60 * 72))
+    expect(User.all.length).to eq(2)
+    visit('/menu')
+    expect(User.all.length).to eq(1)
+  end
 end
