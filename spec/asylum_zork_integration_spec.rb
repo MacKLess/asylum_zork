@@ -91,5 +91,18 @@ describe 'user session', { type: :feature} do
     visit('/menu')
     visit('/room/yard')
     expect(page).to have_content("Moves: 0")
-  end  
+  end
+
+  it "redirects to menu if no active user session" do
+    visit('/room/escape-courtyard')
+    visit('/room/greenhouse')
+    expect(page).to have_content("On the hill above town lurks the old Beaumont asylum.")
+  end
+
+  it "clears user session and game data at game's end" do
+    visit('/room/escape-courtyard')
+    expect(User.all).to eq([])
+    expect(Room.all).to eq([])
+    expect(Item.all).to eq([])
+  end
 end

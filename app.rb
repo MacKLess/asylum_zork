@@ -38,8 +38,7 @@ end
 
 get('/menu') do
   # Game Reset and Setup
-  # New game load workflow
-    # erase user data when back at menu
+  # Clear user session and game data
   if @user
     @user.items.each do |item|
       item.destroy
@@ -51,6 +50,7 @@ get('/menu') do
     session[:id] = nil
   end
 
+  #Create new user session and game data
   @user = User.create({moves: 0, game_text: ""});
   session[:id] = @user.id
 
@@ -88,6 +88,10 @@ get('/menu') do
 end
 
 get('/room/:name') do
+  # if no user, redirect to menu
+  unless @user
+    redirect '/menu'
+  end
   # gets a new room, either due to movement or solving a puzzle.
   results = Room.where("name = ? AND active = ? AND user_id = ?", params.fetch(:name), true, @user.id)
   @room = results.length > 0 ? results.first : nil
@@ -102,7 +106,15 @@ get('/room/:name') do
   @user.update({
     game_text: @text.join("\n") })
   if @room.title_name == 'Escape Courtyard'
-    #TODO: Clear user and associated rooms/items
+    # If end of game, clears user session and game data
+    @user.items.each do |item|
+      item.destroy
+    end
+    @user.rooms.each do |room|
+      room.destroy
+    end
+    @user.destroy
+    session[:id] = nil
   end
   erb(:room)
 end
