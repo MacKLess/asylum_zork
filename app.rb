@@ -38,17 +38,18 @@ end
 
 get('/menu') do
   # Game Reset and Setup
-  # OLD VERSION NO LONGER NECESSARY FOR VERSIONING
-  # text = []
-  # moves = 0
-  # Room.all.each do |room|
-  #   room.destroy
-  # end
-  #
-  # Item.all.each do |item|
-  #   item.destroy
-  # end
-
+  # New game load workflow
+    # erase user data when back at menu
+  if @user
+    @user.items.each do |item|
+      item.destroy
+    end
+    @user.rooms.each do |room|
+      room.destroy
+    end
+    @user.destroy
+    session[:id] = nil
+  end
 
   @user = User.create({moves: 0, game_text: ""});
   session[:id] = @user.id
@@ -171,7 +172,7 @@ post('/room/:name') do
       if success_room
         redirect '/room/' + success_room.name
       else
-        text.push("You can't use that here.")
+        @text.push("You can't use that here.")
         @user.update({
           game_text: @text.join("\n"),
           moves: @moves})
